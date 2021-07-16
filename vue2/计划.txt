@@ -1,0 +1,4 @@
+开始时间：2021.07.16
+截止时间：2021.09.01
+总共时间：47天
+计划目录：new Vue()，生命周期，响应式，模板编译，计算属性/watch，组件系统，this.$nectick/this.foceUpdate,v-on，v-bind，slot。
