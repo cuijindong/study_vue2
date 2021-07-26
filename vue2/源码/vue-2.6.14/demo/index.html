@@ -8,15 +8,23 @@
 </head>
 <body>
   <div id="app">
-    {{ message }}
+    {{ message[0] }}
   </div>
   <script>
     const vm = new Vue({
       el: '#app',
       data: {
-        message: 'Hello Vue!'
+        message: ['one', 'two'],
+        name: 1
+      },
+      mounted() {
+        setTimeout(() => {
+          this.message[0] = 2323232
+          console.log(this.message)
+        }, 1000)
       },
     })
+    console.log(vm)
   </script>
 </body>
 </html>

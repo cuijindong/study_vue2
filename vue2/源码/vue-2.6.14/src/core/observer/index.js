@@ -57,7 +57,7 @@ export class Observer {
   }
 
   /**
-   * Walk through all properties and convert them into
+   * Walk through all properties and  them into
    * getter/setters. This method should only be called when
    * value type is Object.
    */
