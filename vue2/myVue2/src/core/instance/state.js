@@ -1,7 +1,9 @@
+import {observe} from '../observer/index.js'
+
 // 初始化状态：props,methods,data,computed,watch
 export function initState(vm) {
-  const ops = vm.$options
-  // if (ops.props)  initProps(vm, opts.props)
+  const opts = vm.$options
+  // if (opts.props)  initProps(vm, opts.props)
   // if (opts.methods) initMethods(vm, opts.methods)
   if (opts.data) {
     initData(vm)

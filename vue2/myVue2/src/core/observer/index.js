@@ -4,6 +4,9 @@ import {
   def,
   hasProto
 } from '../util/index'
+
+const arrayKeys = Object.getOwnPropertyNames(arrayMethods)
+
 /**
  * Observer类
  */
@@ -17,6 +20,8 @@ export class Observer{
       if (hasProto) {
         // 将重写的数组方法挂载到value的原型（__proto__）上
         protoAugment(value, arrayMethods)
+      } else {
+        copyAugment(value, arrayMethods, arrayKeys)
       }
       this.observeArray(value)
     } else {
@@ -45,10 +50,18 @@ export class Observer{
 // helpers
 /**
  * 通过__proto__拦截原型链来增强目标对象或数组
- * the prototype chain using __proto__
  */
 function protoAugment (target, src) {
   target.__proto__ = src
+}
+/**
+ * 添加属性增强目标对象或数组
+ */
+function copyAugment (target, src, keys) {
+  for (let i = 0, l = keys.length; i < l; i++) {
+    const key = keys[i]
+    def(target, key, src[key])
+  }
 }
 
 /**
@@ -56,9 +69,9 @@ function protoAugment (target, src) {
  * 1.如果成功observed，返回新的observer，
  * 2.如果这个值已经有observer，就返回该observer
  */
-export function observer(value, asRootData) {
-  // 判断是否为对象和由VNode创建
-  if (!isObject(value) || value instanceof VNode) {
+export function observe(value, asRootData) {
+  // 判断是否为对象
+  if (!isObject(value)) {
     return
   }
   // 被返回的observer
@@ -112,4 +125,16 @@ export function defineReactive(obj, key, val, customSetter, shallow) {
       dep.notify()
     }
   })
+}
+/**
+ * 当数组被touched时，收集对数组元素的依赖，因为我们不能像property getters那样拦截数组元素的访问。
+ */
+function dependArray(value) {
+  for (let e, i = 0, l = value.length; i < l; i++) {
+    e = value[i]
+    e && e.__ob__ && e.__ob__.dep.depend()
+    if (Array.isArray(e)) {
+      dependArray(e)
+    }
+  }
 }
