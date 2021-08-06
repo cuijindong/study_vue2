@@ -23,7 +23,6 @@ export default class Watcher {
     }
     this.cb = cb
     this.id = ++uid
-    this.active = true
     this.dirty = this.lazy // for lazy watchers
     this.deps = []
     this.newDeps = []
@@ -68,6 +67,7 @@ export default class Watcher {
     // }
     popTarget()
     this.cleanupDeps()
+    return value
   }
   /**
    * 清理依赖性的收集
@@ -100,5 +100,8 @@ export default class Watcher {
     } else {
       queueWatcher(this)
     }
+  }
+  run() {
+    const value = this.get()
   }
 }

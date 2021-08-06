@@ -9,6 +9,7 @@
 <body>
   <div id="app">
     {{ message }}
+    <button @click="change">change</button>
   </div>
   <script>
     const vm = new Vue({
@@ -16,6 +17,11 @@
       data: {
         message: 'this is message',
         name: 1
+      },
+      methods: {
+        change() {
+          this.message = 'changechange'
+        }
       },
     })
     console.log(vm)
